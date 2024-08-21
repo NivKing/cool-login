@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated 3D Login Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            perspective: 1000px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .login-container, .gallery-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            z-index: 2;
+        }
+
+        .login-container h2, .gallery-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            animation: fadeIn 1s ease;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .login-container input[type="text"]:focus,
+        .login-container input[type="password"]:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .login-container button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.5);
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+        }
+
+        .login-container button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.4s ease, height 0.4s ease, top 0.4s ease, left 0.4s ease;
+            border-radius: 50%;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        .login-container button:hover::before {
+            width: 0;
+            height: 0;
+            top: 50%;
+            left: 50%;
+        }
+
+        .login-container .forgot-password,
+        .login-container .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-container .forgot-password a,
+        .login-container .signup-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .login-container .forgot-password a:hover,
+        .login-container .signup-link a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .gallery-container {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1600px;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: scroll;
+        }
+
+        .gallery-container img {
+            width: 800px;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+
+        .gallery-container img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <div class="login-container" id="loginContainer">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <div class="signup-link">
+            <a href="#" onclick="showSignup()">Don't have an account? Make one</a>
+        </div>
+        <div class="forgot-password">
+            <a href="#">Forgot your password?</a>
+        </div>
+    </div>
+
+    <div class="gallery-container" id="galleryContainer">
+        <h1>Beautiful Pictures</h1>
+        <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" alt="Beautiful Landscape 1">
+        <img src="https://images.unsplash.com/photo-1494059980473-813e73ee784b" alt="Beautiful Landscape 2">
+        <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b" alt="Beautiful Landscape 3">
+        <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" alt="Beautiful Landscape 4">
+        <img src="https://images.unsplash.com/photo-1494059980473-813e73ee784b" alt="Beautiful Landscape 5">
+    </div>
+
+    <script>
+        const loginContainer = document.getElementById('loginContainer');
+        const galleryContainer = document.getElementById('galleryContainer');
+
+        const accounts = [
+                    ];
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX - window.innerWidth / 2;
+            const y = e.clientY - window.innerHeight / 2;
+
+            const rotationY = x * 0.03;
+            const rotationX = -y * 0.03;
+
+            loginContainer.style.transform = `rotateY(${rotationY}deg) rotateX(${rotationX}deg)`;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            loginContainer.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const account = accounts.find(acc => acc.username === username && acc.password === password);
+
+            if (account) {
+                loginContainer.style.display = 'none';
+                galleryContainer.style.display = 'flex';
+            } else {
+                alert('Incorrect username or password!');
+            }
+        }
+
+        function showSignup() {
+            loginContainer.innerHTML = `
+                <h2>Sign Up</h2>
+                <input type="text" id="newUsername" placeholder="Username" required>
+                <input type="password" id="newPassword" placeholder="Password" required>
+                <button onclick="signup()">Sign Up</button>
+                <div class="signup-link">
+                    <a href="#" onclick="showLogin()">Already have an account? Login</a>
+                </div>
+            `;
+        }
+
+        function showLogin() {
+            loginContainer.innerHTML = `
+                <h2>Login</h2>
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button onclick="login()">Login</button>
+                <div class="signup-link">
+                    <a href="#" onclick="showSignup()">Don't have an account? Make one</a>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot your password?</a>
+                </div>
+            `;
+        }
+
+        function signup() {
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            const accountExists = accounts.some(acc => acc.username === newUsername);
+
+            if (accountExists) {
+                alert('Username already exists!');
+            } else if (newUsername && newPassword) {
+                accounts.push({ username: newUsername, password: newPassword });
+                alert('Account created successfully!');
+                showLogin();
+            } else {
+                alert('Please fill in both fields!');
+            }
+        }
+    </script>
+</body>
+</html>
